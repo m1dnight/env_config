@@ -69,6 +69,17 @@ defmodule EnvConfig do
     end
   end
 
+  def check_type(value, :atom_list) do
+    if is_binary(value) do
+      case String.split(value, ",") do
+        [] -> {:ok, []}
+        list -> {:ok, Enum.map(list, &String.to_atom/1)}
+      end
+    else
+      {:error, :type_mismatch, "string list expected, got '#{value}'"}
+    end
+  end
+
   # ----------------------------------------------------------------------------
   # Constraints
 
@@ -105,6 +116,15 @@ defmodule EnvConfig do
   end
 
   def check_constraint(value, :string_list, {:min_length, length}) do
+    if Enum.count(value) < length do
+      {:error, :constraint_violation,
+       "string list of minimum length #{length} expected, got #{value} (#{Enum.count(value)})"}
+    else
+      {:ok, value}
+    end
+  end
+
+  def check_constraint(value, :atom_list, {:min_length, length}) do
     if Enum.count(value) < length do
       {:error, :constraint_violation,
        "string list of minimum length #{length} expected, got #{value} (#{Enum.count(value)})"}

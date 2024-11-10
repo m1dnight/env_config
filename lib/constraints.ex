@@ -2,7 +2,6 @@ defmodule EnvConfig.Constraints do
   @moduledoc """
   Defines functions that can be used to check constraints on environment variables.
   """
-
   @type constraint :: {:length, integer()} | {:min_length, integer()} | {:max_length, integer()}
   @type type :: :integer | :boolean | {:list, :string | :integer}
 

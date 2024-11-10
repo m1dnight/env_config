@@ -7,8 +7,14 @@ defmodule EnvConfig.MixProject do
       version: "0.1.0",
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      docs: docs()
     ]
+  end
+
+  def docs do
+    # The main page in the docs
+    [main: "EnvConfig", logo: "assets/logo.jpg", extras: ["README.md"]]
   end
 
   # Run "mix help compile.app" to learn about applications.
@@ -22,7 +28,8 @@ defmodule EnvConfig.MixProject do
   defp deps do
     [
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.16", only: :dev, runtime: false}
     ]
   end
 end

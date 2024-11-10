@@ -14,7 +14,7 @@ defmodule EnvConfig do
   def test_var(name, type, constraints) do
     with {:ok, value} <- Env.defined?(name),
          {:ok, value} <- Cast.cast(value, type),
-         {:ok, value} <- Constraints.check(value, type, constraints) do
+         {:ok, value} <- Constraints.check_constraints(value, type, constraints) do
       {:ok, value}
     else
       {:error, :constraint_violation, err} ->

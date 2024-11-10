@@ -6,8 +6,17 @@ defmodule EnvConfig.Constraints do
   @type constraint :: {:length, integer()} | {:min_length, integer()} | {:max_length, integer()}
   @type type :: :integer | :boolean | {:list, :string | :integer}
 
-  @spec check(any(), type, [constraint]) ::
+  @spec check_constraints(any(), type, [constraint]) ::
           {:ok, any()} | {:error, :constraint_violation, String.t()}
+  def check_constraints(value, type, constraints) do
+    Enum.reduce(constraints, {:ok, value}, fn constraint, {:ok, value} ->
+      check(value, type, constraint)
+    end)
+  end
+
+  @spec check(any(), type, constraint) ::
+          {:ok, any()} | {:error, :constraint_violation, String.t()}
+
   def check(value, {:list, _type}, {:length, length}) do
     if Enum.count(value) == length do
       {:ok, value}

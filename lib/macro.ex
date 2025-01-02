@@ -21,14 +21,14 @@ defmodule EnvConfig.Macros do
     end
   end
 
-  defmacro optional(env_name, type, constraints \\ []) do
+  defmacro optional(env_name, type, default, constraints \\ []) do
     quote do
       case EnvConfig.test_var(unquote(env_name), unquote(type), unquote(constraints)) do
         {:ok, value} ->
           value
 
         _ ->
-          nil
+          unquote(default)
       end
     end
   end

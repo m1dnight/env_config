@@ -27,10 +27,26 @@ defmodule EnvConfig.Cast do
     end
   end
 
+  def cast(value, :charlist) do
+    if is_binary(value) do
+      charlist = to_charlist(value)
+      {:ok, charlist}
+    else
+      {:error, :cast_fail, "charlist expected, got '#{value}'."}
+    end
+  end
+
   def cast(value, :integer) do
     case Integer.parse(value) do
       {int, ""} -> {:ok, int}
       _ -> {:error, :cast_fail, "integer expected, got '#{value}'"}
+    end
+  end
+
+  def cast(value, :float) do
+    case Float.parse(value) do
+      {float, _} -> {:ok, float}
+      _ -> {:error, :cast_fail, "float expected, got '#{value}'"}
     end
   end
 
@@ -43,6 +59,14 @@ defmodule EnvConfig.Cast do
         [""] -> {:ok, []}
         list -> cast_list(list, type)
       end
+    end
+  end
+
+  def cast(value, {:enum, options}) do
+    if is_binary(value) and value in options do
+      {:ok, value}
+    else
+      {:error, :cast_fail, "'#{value}' not in enum #{inspect(options)}"}
     end
   end
 

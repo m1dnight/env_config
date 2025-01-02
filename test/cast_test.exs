@@ -58,4 +58,15 @@ defmodule EnvConfig.CastTest do
       assert cast("1,2,3,4,5", {:list, :string}) == {:ok, ["1", "2", "3", "4", "5"]}
     end
   end
+
+  describe "enum" do
+    test "enum value" do
+      assert cast("foo", {:enum, ["foo", "bar"]}) == {:ok, "foo"}
+    end
+
+    test "invalid enum value" do
+      assert cast("food", {:enum, ["foo", "bar"]}) ==
+               {:error, :cast_fail, "'food' not in enum [\"foo\", \"bar\"]"}
+    end
+  end
 end

@@ -18,3 +18,18 @@ def deps do
   ]
 end
 ```
+
+## Types
+
+  - `:boolean`
+  - `:integer`
+    - Constraints
+      - `{:min, integer}`: minimal required value
+      - `{:max, integer}`: maximal required value
+  - `:string`
+    - Constraints
+      - `{:allow_empty?, boolean}`: allow the (trimmed) string to be empty
+      - `{:min_length, integer}`: minimal length of the string
+      - `{:max_length, integer}`: maximum length of the string
+
+## Example

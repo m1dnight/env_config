@@ -73,6 +73,19 @@ defmodule EnvConfig.MacrosTest do
       assert obtained == expected
     end
 
+    test "string value not set" do
+      name = "ENV_VAR"
+      value = "string"
+      type = :string
+      expected = "string"
+      constraints = []
+
+      System.delete_env(name)
+      obtained = required(name, type, constraints)
+
+      assert obtained == expected
+    end
+
     test "boolean value" do
       name = "ENV_VAR"
       value = "true"
@@ -121,6 +134,35 @@ defmodule EnvConfig.MacrosTest do
 
       System.put_env(name, value)
       obtained = required(name, type, constraints)
+
+      assert obtained == expected
+    end
+  end
+
+  describe "optional" do
+    test "boolean value unset" do
+      name = "PHX_SERVER"
+      type = :boolean
+      expected = true
+      constraints = []
+      default = true
+
+      System.delete_env(name)
+
+      obtained = optional(name, type, default, constraints)
+
+      assert obtained == expected
+    end
+
+    test "boolean value set" do
+      name = "PHX_SERVER"
+      type = :boolean
+      expected = true
+      constraints = []
+      default = true
+
+      System.put_env(name, "true")
+      obtained = optional(name, type, default, constraints)
 
       assert obtained == expected
     end

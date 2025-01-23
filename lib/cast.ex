@@ -27,6 +27,14 @@ defmodule EnvConfig.Cast do
     end
   end
 
+  def cast(value, :atom) do
+    if is_binary(value) do
+      {:ok, String.to_atom(value)}
+    else
+      {:error, :cast_fail, "atom expected, got '#{value}'."}
+    end
+  end
+
   def cast(value, :charlist) do
     if is_binary(value) do
       charlist = to_charlist(value)

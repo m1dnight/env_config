@@ -3,6 +3,16 @@ defmodule EnvConfig.CastTest do
   doctest EnvConfig
   import EnvConfig.Cast
 
+  describe "atom" do
+    test "values cast to atoms" do
+      assert cast("Foo", :atom) == {:ok, :Foo}
+    end
+
+    test "Elxir.Atom casts to Atom" do
+      assert cast("Elixir.Foo", :atom) == {:ok, Foo}
+    end
+  end
+
   describe "boolean" do
     test "truthy values cast to true" do
       truthy = ["true", "TRUE", "1"]

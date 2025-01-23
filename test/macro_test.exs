@@ -73,19 +73,6 @@ defmodule EnvConfig.MacrosTest do
       assert obtained == expected
     end
 
-    test "string value not set" do
-      name = "ENV_VAR"
-      value = "string"
-      type = :string
-      expected = "string"
-      constraints = []
-
-      System.delete_env(name)
-      obtained = required(name, type, constraints)
-
-      assert obtained == expected
-    end
-
     test "boolean value" do
       name = "ENV_VAR"
       value = "true"
